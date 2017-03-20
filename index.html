@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chaser.io Code Challenge</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.css">
+</head>
+<body>
+  <div id="mocha"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.js"></script>
+  <script>mocha.setup('')</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min.js"></script>
+  <script>
+    var assert = chai.assert;
+    var expect = chai.expect;
+    var should = chai.should();
+  </script>
+
+  <script>
+  // You have an array of objects in JavaScript.
+  // Each one contains a name (a string) and ranking (a number).
+  // Write two functions, one to return the objects ordered by ranking and another to return the average ranking.
+  // Write your code in a secret gist (https://gist.github.com/) and paste the URL below.
+  'use strict';
+  const inputArray = [          {name: "Robbie Keane" , ranking: 36},
+                              {name: "Shay Given", ranking: 40},
+                              {name: "Kevin Kilbane", ranking: 42},
+                              {name: "John O'Shea", ranking: 36},
+                              {name: "Steve Staunton", ranking: 45},
+                              {name: "Damien Duff", ranking: 37},
+                              {name: "Niall Quinn", ranking: 50},
+                              {name: "Tony Cascarino", ranking: 53},
+                              {name: "Paul McGrath", ranking: 57},
+                              {name: "Richard Dunne", ranking: 37},
+                              {name: "Roy Keane", ranking: 45}];
+
+  const sortArray =  (inputArray) => {
+        if(inputArray){
+              inputArray.sort((a, b) =>{
+                  return a.ranking-b.ranking
+              });
+              return inputArray;
+
+      }else{
+        return "No input array";
+      }
+  };
+
+  const calculateAverageRank = (inputArray) => {
+      if(inputArray){
+
+        var sum =  inputArray.reduce((sum, value) => {
+          console.log(value.ranking);
+            return sum + value.ranking;
+            }, 0);
+
+            var average = sum / inputArray.length;
+            return average;
+
+    }else{
+      return "No input array";
+    }
+  }
+
+  document.write("<h3>Irish Soccer Players Input - not sorted</h3><br/>" + JSON.stringify(inputArray));
+  const finalOutput = sortArray(inputArray);
+  document.write("<h3>Irish Soccer Players Output - sorted by ranking</h3><br/>" +JSON.stringify(finalOutput));
+
+  const averagePlayerRank = calculateAverageRank(inputArray);
+  document.write("<h3>Average rank</h3>: " + averagePlayerRank);
+
+  </script>
+
+  <!-- Tests  -->
+  <script>
+  /* global sortArray, describe, it, expect, should */
+
+  describe('sortArray()',  () => {
+    'use strict';
+
+    it('sortArray() must exist and be a function', () => {
+      expect(sortArray).to.be.a('function');
+    });
+    it('must throw an error if no input array passed', () => {
+      expect(sortArray('')).to.equal('No input array');
+    });
+
+    it('input array must be an array', () => {
+      expect(inputArray).to.be.a('array');
+    });
+
+    it('output array must be an array', () => {
+      expect(finalOutput).to.be.a('array');
+    });
+
+    it('first ranking in array must be less than last', () => {
+      assert.isBelow(finalOutput[0]["ranking"], finalOutput[10]["ranking"], 'First item ranking must be less than last');
+
+    });
+    it('output array should have same length as input array', () => {
+      expect(finalOutput).to.have.length(inputArray.length);
+    });
+  });
+  </script>
+
+  <script>mocha.run()</script>
+</body>
+</html>
