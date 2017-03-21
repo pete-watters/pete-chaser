@@ -7,7 +7,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.css">
 </head>
 <body>
-  <div id="mocha"></div>
+  <section>
+    <article id="inputArray"></article>
+    <article id="sortedArray"></article>
+    <article id="average"></article>
+  </section>
+  <hr>
+  <section id="mocha"></section>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.js"></script>
   <script>mocha.setup('')</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min.js"></script>
@@ -18,12 +25,13 @@
   </script>
 
   <script>
+  // https://gist.github.com/peter-watters/a2916641ba1ed8a23f31a939c9381a99
   // You have an array of objects in JavaScript.
   // Each one contains a name (a string) and ranking (a number).
   // Write two functions, one to return the objects ordered by ranking and another to return the average ranking.
   // Write your code in a secret gist (https://gist.github.com/) and paste the URL below.
   'use strict';
-  const inputArray = [          {name: "Robbie Keane" , ranking: 36},
+  const inputArray = [        {name: "Robbie Keane" , ranking: 36},
                               {name: "Shay Given", ranking: 40},
                               {name: "Kevin Kilbane", ranking: 42},
                               {name: "John O'Shea", ranking: 36},
@@ -49,9 +57,7 @@
 
   const calculateAverageRank = (inputArray) => {
       if(inputArray){
-
         var sum =  inputArray.reduce((sum, value) => {
-          console.log(value.ranking);
             return sum + value.ranking;
             }, 0);
 
@@ -63,22 +69,20 @@
     }
   }
 
-  document.write("<h3>Irish Soccer Players Input - not sorted</h3><br/>" + JSON.stringify(inputArray));
-  const finalOutput = sortArray(inputArray);
-  document.write("<h3>Irish Soccer Players Output - sorted by ranking</h3><br/>" +JSON.stringify(finalOutput));
 
-  const averagePlayerRank = calculateAverageRank(inputArray);
-  document.write("<h3>Average rank</h3>: " + averagePlayerRank);
-
+    document.getElementById('inputArray').innerHTML = `<h3>Irish Soccer Players Input - not sorted</h3>${JSON.stringify(inputArray)}`;
+    const finalOutput = sortArray(inputArray);
+    document.getElementById('sortedArray').innerHTML = `<h3>Irish Soccer Players Output - sorted by ranking</h3>${JSON.stringify(finalOutput)}`;
+    const averagePlayerRank = calculateAverageRank(inputArray);
+    document.getElementById('average').innerHTML = `<h3>Average rank:</h3> ${averagePlayerRank}`;
   </script>
 
   <!-- Tests  -->
   <script>
-  /* global sortArray, describe, it, expect, should */
-
+  /* global sortArray, calculateAverageRank, describe, it, expect, should */
   describe('sortArray()',  () => {
     'use strict';
-
+    // sortingArray
     it('sortArray() must exist and be a function', () => {
       expect(sortArray).to.be.a('function');
     });
@@ -96,11 +100,26 @@
 
     it('first ranking in array must be less than last', () => {
       assert.isBelow(finalOutput[0]["ranking"], finalOutput[10]["ranking"], 'First item ranking must be less than last');
-
     });
     it('output array should have same length as input array', () => {
       expect(finalOutput).to.have.length(inputArray.length);
     });
+  });
+
+  describe('calculateAverageRank()',  () => {
+    'use strict';
+    // average calculation
+    it('calculateAverageRank() must exist and be a function', () => {
+      expect(calculateAverageRank).to.be.a('function');
+    });
+    it('must throw an error if no input array passed', () => {
+      expect(calculateAverageRank('')).to.equal('No input array');
+    });
+
+    it('Average rank should be 43.45454545454545', () => {
+      expect(averagePlayerRank).to.equal(43.45454545454545);
+    });
+
   });
   </script>
 
